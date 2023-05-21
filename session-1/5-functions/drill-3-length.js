@@ -7,6 +7,7 @@ class TicTacToeGame{
     constructor(){
         this.board = TicTacToeGame.getInitialBoard();
         this.currentPlayer = TicTacToeGame.optionalPlayers[0];
+        this.isGameOver = false;
     }
 
     static getInitialBoard(){
@@ -17,15 +18,19 @@ class TicTacToeGame{
         ];
     }
 
-    printBoard(){
-        const delimiter = '|';
-        console.log(this.board[0].join(delimiter));
-        console.log(this.board[1].join(delimiter));
-        console.log(this.board[2].join(delimiter));
+    static print(message){
+        console.log(message);
     }
 
-    isGameOver(){
-        return this.isWin() || this.isDraw();
+    printBoard(){
+        const delimiter = '|';
+        TicTacToeGame.print(this.board[0].join(delimiter));
+        TicTacToeGame.print(this.board[1].join(delimiter));
+        TicTacToeGame.print(this.board[2].join(delimiter));
+    }
+
+    setIsGameOver(){
+        this.isGameOver = this.isWin() || this.isDraw();
     }
 
     isBoardFull(){
@@ -43,7 +48,7 @@ class TicTacToeGame{
         return this.board.some(row => row.every(cell => cell === this.currentPlayer));
     }
 
-    // This method checks if the game is won by a column.
+
     isColumnWin(){
         return this.board.some((_, index) => this.board.every(row => row[index] === this.currentPlayer));
     }
@@ -89,28 +94,65 @@ class TicTacToeGame{
         const columnNumber = Number(prompt('Enter column: '));
         return {rowIndex: rowNumber - 1, columnIndex: columnNumber - 1};
     }
+
+    printInvalidInputMessage() {
+        TicTacToeGame.print('Invalid input! please enter a number between 1 and 3');
+    }
+
+    printPositionOccupiedMessage() {
+        TicTacToeGame.print('Place is occupied!, Choose different one');
+    }
+
     handleTurn(){
         this.printBoard();
         const {rowIndex, columnIndex} = this.getUserNextPosition();
         if(!this.isInputValid(rowIndex) || !this.isInputValid(columnIndex)){
-            console.log('Invalid input! please enter a number between 1 and 3');
+            this.printInvalidInputMessage();
             return;
         }
         if(this.isPositionOccupied({rowIndex, columnIndex})){
-            console.log('Place is occupied!, Choose different one');
+            this.printPositionOccupiedMessage();
             return;
         }
         this.placeMark({rowIndex, columnIndex});
     }
 
+    play(){
+        while(!this.isGameOver){
+            this.handleTurn();
+            this.setIsGameOver();
+            if(!this.isGameOver)
+                this.setNextPlayer();
+        }
+        this.printBoard();
+        if(this.isDraw()){
+            TicTacToeGame.print('Draw!');
+            return
+        }
+        TicTacToeGame.print(`Player ${this.currentPlayer} wins!`);
+
+    }
+
     // play(){
     //     let isGameOver = false;
     //     while(!isGameOver){
-    //         this.handleTurn();
+    //         this.printBoard();
+    //         const {rowIndex, columnIndex} = this.getUserNextPosition();
+    //         if(!this.isInputValid(rowIndex) || !this.isInputValid(columnIndex)){
+    //             console.log('Invalid input! please enter a number between 1 and 3');
+    //             continue;
+    //         }
+    //         if(this.board[rowIndex][columnIndex] !== TicTacToeGame.emptyCell){
+    //             console.log('Position is occupied!, Choose different one');
+    //             continue;
+    //         }
+    //         this.board[rowIndex][columnIndex] = this.currentPlayer;
     //         isGameOver = this.isGameOver();
     //         if(isGameOver)
     //             continue;
-    //         this.setNextPlayer();
+    //         const currentPlayerIndex = TicTacToeGame.optionalPlayers.indexOf(this.currentPlayer);
+    //         const nextPlayerIndex = (currentPlayerIndex + 1) % TicTacToeGame.optionalPlayers.length;
+    //         this.currentPlayer = TicTacToeGame.optionalPlayers[nextPlayerIndex];
     //     }
     //     this.printBoard();
     //     if(this.isDraw()){
@@ -118,37 +160,7 @@ class TicTacToeGame{
     //         return
     //     }
     //     console.log(`Player ${this.currentPlayer} wins!`);
-    //
     // }
-
-    play(){
-        let isGameOver = false;
-        while(!isGameOver){
-            this.printBoard();
-            const {rowIndex, columnIndex} = this.getUserNextPosition();
-            if(!this.isInputValid(rowIndex) || !this.isInputValid(columnIndex)){
-                console.log('Invalid input! please enter a number between 1 and 3');
-                continue;
-            }
-            if(this.board[rowIndex][columnIndex] !== TicTacToeGame.emptyCell){
-                console.log('Position is occupied!, Choose different one');
-                continue;
-            }
-            this.board[rowIndex][columnIndex] = this.currentPlayer;
-            isGameOver = this.isGameOver();
-            if(isGameOver)
-                continue;
-            const currentPlayerIndex = TicTacToeGame.optionalPlayers.indexOf(this.currentPlayer);
-            const nextPlayerIndex = (currentPlayerIndex + 1) % TicTacToeGame.optionalPlayers.length;
-            this.currentPlayer = TicTacToeGame.optionalPlayers[nextPlayerIndex];
-        }
-        this.printBoard();
-        if(this.isDraw()){
-            console.log('Draw!');
-            return
-        }
-        console.log(`Player ${this.currentPlayer} wins!`);
-    }
 }
 
 const game = new TicTacToeGame();
