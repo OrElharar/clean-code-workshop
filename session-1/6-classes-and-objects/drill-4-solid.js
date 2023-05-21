@@ -3,13 +3,13 @@
 // Instructions:
 //
 // Review the implementation of a class called EmailService.
-// Identify how the EmailService class adheres to or deviates from the SOLID principles (SRP, OCP, LSP, ISP, and DIP).
+// Identify how the EmailSender class adheres to or deviates from the SOLID principles (SRP, OCP, LSP, ISP, and DIP).
 // Provide explanations or examples to support your analysis,
 // highlighting how the class aligns with or violates each principle.
 // Suggest improvements or modifications to ensure better adherence to the SOLID principles, if necessary.
 
 
-class EmailService {
+class EmailSender {
   constructor() {}
 
   sendEmail(message, recipient) {
