@@ -1,167 +1,46 @@
-const prompt = require('prompt-sync')();
+//Drill: Refactoring a Long Function
+//
+// Instructions:
+//
+// Review the implementation of a long function called processData.
+// Analyze the logic within the processData function and identify opportunities to divide the logic into smaller,
+// more focused functions.
+// Determine which parts of the code can be extracted into separate functions to improve readability, maintainability,
+// and adherence to the Single Responsibility Principle (SRP).
+// Refactor the processData function by extracting the identified parts into separate functions.
+// Discuss the benefits of the refactored code, such as improved readability, modularity, and testability.
 
-// This is a class that represents a Tic Tac Toe console game.
-class TicTacToeGame{
-    static optionalPlayers = ['X', 'O'];
-    static emptyCell = ' ';
-    constructor(){
-        this.board = TicTacToeGame.getInitialBoard();
-        this.currentPlayer = TicTacToeGame.optionalPlayers[0];
-        this.isGameOver = false;
+class Employee {
+    constructor(name, baseSalary, yearsOfService, performanceRating) {
+        this.name = name;
+        this.baseSalary = baseSalary;
+        this.yearsOfService = yearsOfService;
+        this.performanceRating = performanceRating;
     }
-
-    static getInitialBoard(){
-        return [
-            [TicTacToeGame.emptyCell, TicTacToeGame.emptyCell, TicTacToeGame.emptyCell],
-            [TicTacToeGame.emptyCell, TicTacToeGame.emptyCell, TicTacToeGame.emptyCell],
-            [TicTacToeGame.emptyCell, TicTacToeGame.emptyCell, TicTacToeGame.emptyCell]
-        ];
-    }
-
-    static print(message){
-        console.log(message);
-    }
-
-    printBoard(){
-        const delimiter = '|';
-        TicTacToeGame.print(this.board[0].join(delimiter));
-        TicTacToeGame.print(this.board[1].join(delimiter));
-        TicTacToeGame.print(this.board[2].join(delimiter));
-    }
-
-    setIsGameOver(){
-        this.isGameOver = this.isWin() || this.isDraw();
-    }
-
-    isBoardFull(){
-        return this.board.every(row => row.every(cell => cell !== TicTacToeGame.emptyCell));
-    }
-    isDraw(){
-        return !this.isWin() && this.isBoardFull();
-    }
-
-    isWin(){
-        return this.isRowWin() || this.isColumnWin() || this.isDiagonalWin();
-    }
-
-    isRowWin(){
-        return this.board.some(row => row.every(cell => cell === this.currentPlayer));
-    }
-
-
-    isColumnWin(){
-        return this.board.some((_, index) => this.board.every(row => row[index] === this.currentPlayer));
-    }
-
-    isStrongDiagonalWin(){
-        return this.board.every((row, index) => row[index] === this.currentPlayer);
-    }
-
-    isWeakDiagonalWin(){
-        return this.board.every((row, index) => row[row.length - index - 1] === this.currentPlayer);
-    }
-
-    isDiagonalWin(){
-        return this.isStrongDiagonalWin() || this.isWeakDiagonalWin();
-    }
-
-    isPositionOccupied({rowIndex, columnIndex}){
-        return this.board[rowIndex][columnIndex] !== TicTacToeGame.emptyCell;
-    }
-    placeMark({rowIndex, columnIndex}){
-        this.board[rowIndex][columnIndex] = this.currentPlayer;
-    }
-
-    setNextPlayer(){
-        const currentPlayerIndex = TicTacToeGame.optionalPlayers.indexOf(this.currentPlayer);
-        const nextPlayerIndex = (currentPlayerIndex + 1) % TicTacToeGame.optionalPlayers.length;
-        this.currentPlayer = TicTacToeGame.optionalPlayers[nextPlayerIndex];
-    }
-
-    isInputValidNumber(input){
-        return !isNaN(input);
-    }
-
-    isNumberInBoardRange(number){
-        return number >= 0 && number <= 2;
-    }
-
-    isInputValid(input){
-        return this.isInputValidNumber(input) && this.isNumberInBoardRange(input);
-    }
-    getUserNextPosition(){
-        const rowNumber = Number(prompt('Enter row: '));
-        const columnNumber = Number(prompt('Enter column: '));
-        return {rowIndex: rowNumber - 1, columnIndex: columnNumber - 1};
-    }
-
-    printInvalidInputMessage() {
-        TicTacToeGame.print('Invalid input! please enter a number between 1 and 3');
-    }
-
-    printPositionOccupiedMessage() {
-        TicTacToeGame.print('Place is occupied!, Choose different one');
-    }
-
-    handleTurn(){
-        this.printBoard();
-        const {rowIndex, columnIndex} = this.getUserNextPosition();
-        if(!this.isInputValid(rowIndex) || !this.isInputValid(columnIndex)){
-            this.printInvalidInputMessage();
-            return;
-        }
-        if(this.isPositionOccupied({rowIndex, columnIndex})){
-            this.printPositionOccupiedMessage();
-            return;
-        }
-        this.placeMark({rowIndex, columnIndex});
-    }
-
-    play(){
-        while(!this.isGameOver){
-            this.handleTurn();
-            this.setIsGameOver();
-            if(!this.isGameOver)
-                this.setNextPlayer();
-        }
-        this.printBoard();
-        if(this.isDraw()){
-            TicTacToeGame.print('Draw!');
-            return
-        }
-        TicTacToeGame.print(`Player ${this.currentPlayer} wins!`);
-
-    }
-
-    // play(){
-    //     let isGameOver = false;
-    //     while(!isGameOver){
-    //         this.printBoard();
-    //         const {rowIndex, columnIndex} = this.getUserNextPosition();
-    //         if(!this.isInputValid(rowIndex) || !this.isInputValid(columnIndex)){
-    //             console.log('Invalid input! please enter a number between 1 and 3');
-    //             continue;
-    //         }
-    //         if(this.board[rowIndex][columnIndex] !== TicTacToeGame.emptyCell){
-    //             console.log('Position is occupied!, Choose different one');
-    //             continue;
-    //         }
-    //         this.board[rowIndex][columnIndex] = this.currentPlayer;
-    //         isGameOver = this.isGameOver();
-    //         if(isGameOver)
-    //             continue;
-    //         const currentPlayerIndex = TicTacToeGame.optionalPlayers.indexOf(this.currentPlayer);
-    //         const nextPlayerIndex = (currentPlayerIndex + 1) % TicTacToeGame.optionalPlayers.length;
-    //         this.currentPlayer = TicTacToeGame.optionalPlayers[nextPlayerIndex];
-    //     }
-    //     this.printBoard();
-    //     if(this.isDraw()){
-    //         console.log('Draw!');
-    //         return
-    //     }
-    //     console.log(`Player ${this.currentPlayer} wins!`);
-    // }
 }
 
-const game = new TicTacToeGame();
-game.play();
+
+function calculateSalary(employee) {
+
+    const baseSalary = employee.baseSalary;
+    const yearsOfService = employee.yearsOfService;
+    const performanceRating = employee.performanceRating;
+    let bonus = 0;
+    if (performanceRating === "Excellent") {
+        bonus = baseSalary * 0.2;
+    } else if (performanceRating === "Good") {
+        bonus = baseSalary * 0.1;
+    } else {
+        bonus = baseSalary * 0.05;
+    }
+    let additionalBonus = 0;
+    if (yearsOfService >= 5) {
+        additionalBonus = baseSalary * 0.1;
+    }
+    const totalSalary = baseSalary + bonus + additionalBonus;
+    const taxRate = 0.2;
+    const taxAmount = totalSalary * taxRate;
+    const netSalary = totalSalary - taxAmount;
+
+    return netSalary;
+}
