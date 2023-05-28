@@ -8,26 +8,26 @@
 // Consider the purpose and responsibilities of the class and methods when choosing appropriate names.
 
 const moves = {
-    Rock: 'rock',
-    Paper: 'paper',
-    Scissors: 'scissors'
+    rock: 'rock',
+    paper: 'paper',
+    scissors: 'scissors'
 }
 
-class RPS{
-    static winner(p1, p2){
-        if (p1 === p2) {
+class RockPaperScissors {
+    static doWeHaveWinner(player, opponent){
+        if (player === opponent) {
             return false;
         }
 
-        if (p1 === moves.Rock && p2 === moves.Scissors) {
+        if (player === moves.rock && opponent === moves.scissors) {
             return true;
         }
 
-        if (p1 === moves.Paper && p2 === moves.Rock) {
+        if (player === moves.paper && opponent === moves.rock) {
             return true;
         }
 
-        if (p1 === moves.Scissors && p2 === moves.Paper) {
+        if (player === moves.scissors && opponent === moves.paper) {
             return true;
         }
 

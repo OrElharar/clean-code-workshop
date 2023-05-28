@@ -7,6 +7,32 @@
 // Refactor the code to adhere to the Law of Demeter by reducing direct dependencies and accessing collaborators' data
 // or methods through appropriate interfaces or encapsulation.
 
+class EmailService {
+    constructor() {}
+
+    sendOrderConfirmation() {
+        // Method logic for sending order confirmation email
+    }
+}
+
+
+class Customer {
+    constructor(name, email, emailService) {
+        this.emailService = emailService;
+        this.extraData = {
+            name,
+            email
+        };
+    }
+
+    getName() {
+        return this.extraData.name;
+    }
+
+    getEmailService() {
+        return this.emailService;
+    }
+}
 class Order {
     constructor(customer) {
         this.verifyData(customer);
@@ -21,31 +47,10 @@ class Order {
     }
     placeOrder() {
         const emailService = this.customer.getEmailService();
-        emailService.sendOrderConfirmation();
+        emailService.sendOrderConfirmation(this.customer.extraData.email);
     }
 
 }
 
-class Customer {
-    constructor(name, email, emailService) {
-        this.name = name;
-        this.email = email;
-        this.emailService = emailService;
-        this.data = {
-            name,
-            email
-        };
-    }
 
-    getEmailService() {
-        return this.emailService;
-    }
-}
 
-class EmailService {
-    constructor() {}
-
-    sendOrderConfirmation() {
-        // Method logic for sending order confirmation email
-    }
-}

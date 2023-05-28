@@ -1,8 +1,10 @@
+const {ExampleClass} = require('./drill-1-class');
+
+
 class AnotherExampleClass{
 //     class implementation...
 }
 
-const {ExampleClass} = require('./drill-1-class');
 
 
 class LastExampleClass{

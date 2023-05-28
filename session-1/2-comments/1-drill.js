@@ -7,13 +7,12 @@
 // Remove or rephrase the redundant comments to focus on explaining the purpose or rationale behind the code.
 
 
-const exampleFunction = (array) => {
-// Loop through the array and process each element
+const printGreaterThenThreshold = (array) => {
     for (let i = 0; i < array.length; i++) {
-        // Check if the element greater than 10
-        if (array[i] > 10) {
-            // log the element
-            console.log(array[i]);
+        const threshold = 10;
+        const element  = array[i];
+        if (element > threshold) {
+            console.log(element);
         }
     }
 }

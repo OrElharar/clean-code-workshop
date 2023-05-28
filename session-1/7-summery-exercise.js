@@ -95,12 +95,12 @@ class TicTacToeGame{
         return {rowIndex: rowNumber - 1, columnIndex: columnNumber - 1};
     }
 
-    printInvalidInputMessage() {
-        TicTacToeGame.print('Invalid input! please enter a number between 1 and 3');
+    getInvalidInputMessage() {
+        return 'Invalid input! please enter a number between 1 and 3';
     }
 
-    printPositionOccupiedMessage() {
-        TicTacToeGame.print('Place is occupied!, Choose different one');
+    getPositionOccupiedMessage() {
+        return 'Position occupied! please enter a different position';
     }
 
     announceWinner() {
@@ -110,19 +110,23 @@ class TicTacToeGame{
     announceDraw() {
         TicTacToeGame.print('Draw!');
     }
+    verifyInput({rowIndex, columnIndex}){
+        if(!this.isInputValid(rowIndex) || !this.isInputValid(columnIndex))
+            throw new Error(this.getInvalidInputMessage());
 
+        if(this.isPositionOccupied({rowIndex, columnIndex}))
+            throw new Error(this.getPositionOccupiedMessage());
+        
+    }
     handleTurn(){
-        this.printBoard();
-        const {rowIndex, columnIndex} = this.getUserNextPosition();
-        if(!this.isInputValid(rowIndex) || !this.isInputValid(columnIndex)){
-            this.printInvalidInputMessage();
-            return;
+        try{
+            this.printBoard();
+            const {rowIndex, columnIndex} = this.getUserNextPosition();
+            this.verifyInput({rowIndex, columnIndex});
+            this.placeMark({rowIndex, columnIndex})
+        }catch(error){
+            TicTacToeGame.print(error.message);
         }
-        if(this.isPositionOccupied({rowIndex, columnIndex})){
-            this.printPositionOccupiedMessage();
-            return;
-        }
-        this.placeMark({rowIndex, columnIndex});
     }
 
     play(){

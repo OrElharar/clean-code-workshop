@@ -6,10 +6,8 @@
 // Determine if the commented out code is no longer needed as a reference.
 // If the commented out code is unnecessary, explain why it's better to remove it and rely on version control tools for reference.
 
-function calculate(a, b) {
-    const result = a + b;
-    // console.log(result); // Keeping for future reference
-    return result;
+function sum(num1, num2) {
+    return num1 + num2;
 }
 
-console.log(calculate(1, 2));
+console.log(sum(1, 2));

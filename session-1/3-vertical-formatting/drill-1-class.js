@@ -7,33 +7,30 @@
 
 
 class ExampleClass {
-    someFunction() {
-        // Private function logic
-    }
-
-    differentFunction() {
-        // Public function logic
-    }
-    static staticFunction() {
-        // Static function logic
-    }
-
-    get someProperty() {
-        // Getter logic
-    }
-
     constructor() {
         // Constructor logic
     }
 
-    set someProperty(value) {
+    static staticFunction() {
+        // Static function logic
+    }
+
+    setSomeProperty(value) {
         // Setter logic
     }
 
-
-    initializeEntity() {
-        // Entity initialization logic
+    getSomeProperty() {
+        // Getter logic
     }
+
+    someFunction() {
+    }
+
+    differentFunction() {
+    }
+
 }
 
-module.exports = {ExampleClass}
+const exampleObject = new ExampleClass();
+
+module.exports = {ExampleClass, exampleObject}

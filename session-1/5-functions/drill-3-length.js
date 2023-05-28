@@ -19,12 +19,7 @@ class Employee {
     }
 }
 
-
-function calculateSalary(employee) {
-
-    const baseSalary = employee.baseSalary;
-    const yearsOfService = employee.yearsOfService;
-    const performanceRating = employee.performanceRating;
+function getBonusByPerformanceRate(baseSalary, performanceRating) {
     let bonus = 0;
     if (performanceRating === "Excellent") {
         bonus = baseSalary * 0.2;
@@ -33,14 +28,26 @@ function calculateSalary(employee) {
     } else {
         bonus = baseSalary * 0.05;
     }
-    let additionalBonus = 0;
-    if (yearsOfService >= 5) {
-        additionalBonus = baseSalary * 0.1;
-    }
-    const totalSalary = baseSalary + bonus + additionalBonus;
+    return bonus;
+}
+
+function getAdditionalBonusBySeniority(baseSalary, yearsOfService) {
+    const yearsThreshold = 5;
+    const additionalBonusMultiplier = 0.1;
+    return yearsOfService > yearsThreshold ? baseSalary * additionalBonusMultiplier : 0;
+}
+
+function getCalculatedNetSalary({ baseSalary, bonus }) {
     const taxRate = 0.2;
+
+    const totalSalary = baseSalary + bonus;
     const taxAmount = totalSalary * taxRate;
     const netSalary = totalSalary - taxAmount;
 
     return netSalary;
+}
+function getSalary(employee) {
+    const bonus = getBonusByPerformanceRate(employee.baseSalary, employee.performanceRating);
+    const additionalBonus = getAdditionalBonusBySeniority(employee.baseSalary, employee.yearsOfService);
+    return getCalculatedNetSalary({ baseSalary: employee.baseSalary, bonus: bonus + additionalBonus });
 }

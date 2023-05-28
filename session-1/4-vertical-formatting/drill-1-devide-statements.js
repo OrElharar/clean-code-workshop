@@ -42,21 +42,21 @@ class CheckersGame {
      return this.board[rowIndex][columnIndex] !== null;
   }
   isInputValid({rowIndex, columnIndex}) {
-      if(!CheckersGame.isIndexProvided(rowIndex) || !CheckersGame.isIndexProvided(columnIndex))
-            return false;
-      if(!CheckersGame.isIndexInteger(rowIndex) || !CheckersGame.isIndexInteger(columnIndex))
+      const isRowInteger = CheckersGame.isIndexInteger(rowIndex);
+      const isColumnInteger = CheckersGame.isIndexInteger(columnIndex);
+      if(!isRowInteger || !isColumnInteger)
             return false;
       if(!CheckersGame.isPositionValid({rowIndex, columnIndex}))
             return false;
       return this.isPositionOccupied({rowIndex, columnIndex});
   }
 
-    isInputValidComplexFunction({rowIndex, columnIndex}) {
-        if(rowIndex == null || columnIndex == null) return false;
-        if(typeof rowIndex !== 'number' || typeof columnIndex !== 'number')  return false;
-        if(!Number.isInteger(rowIndex) || !Number.isInteger(columnIndex))  return false;
-        if(rowIndex < 0 || rowIndex >= 8 || columnIndex < 0 || columnIndex >= 8)  return false;
-        return this.board[rowIndex][columnIndex] !== null;
+
+
+    handleTurn({rowIndex, columnIndex}) {
+        if(!this.isInputValid({rowIndex, columnIndex}))
+            return;
+    // Handle turn logic
     }
 
 }

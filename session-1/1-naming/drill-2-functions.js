@@ -8,33 +8,33 @@
 // Consider the context of the code to ensure the names accurately reflect the purpose of the functions.
 // Refactor the code in the provided code editor and submit your improved version.
 
-function a(x, y) {
-    return x + y;
+function sum(num1, num2) {
+    return num1 + num2;
 }
 
-function b(f) {
-    const g = f * f;
-    return g;
+function getSquareOfNum(num) {
+    return num * num;
 }
 
-const result1 = a(5, 10);
+const result1 = sum(5, 10);
 console.log(result1);
 
-const result2 = b(6);
+const result2 = getSquareOfNum(6);
 console.log(result2);
 
 
-const prime = (n) => {
-    if (n === 1) {
+const isPrim = (num) => {
+    if (num === 1) {
         return false;
     }
 
-    for (let i = 2; i <= Math.sqrt(n); i++) {
-        if (n % i === 0)
+    for (let factor = 2; factor <= Math.sqrt(num); factor++) {
+        const isDividedByFactor = num % factor === 0;
+        if (isDividedByFactor)
             return false;
     }
 
     return true;
 }
 
-console.log(prime(result2))
+console.log(isPrim(result2))

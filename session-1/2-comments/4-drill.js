@@ -1,8 +1,8 @@
 const isEmailValid = (input) => {
     //  this regular expression is build by the following rules:
-    //  1. the string must start with at least one letter or number
-    //  2. Next the string must contain an @ symbol
-    //  3. the string must contain at least one letter or number after the @ symbol
+    // 1. ^[a-zA-Z0-9]+ - this part checks that the string starts with at least one letter or number
+    // 2. @[a-zA-Z0-9]+ - this part checks that the string contains an @ symbol and at least one letter or number after it
+    // 3. \.[a-zA-Z0-9]+$ - this part checks that the string ends with at least one letter or number after a dot
 
    const emailPattern = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/;
     return emailPattern.test(input);

@@ -8,11 +8,13 @@
 // Consider the context of the code to ensure the names accurately reflect their purpose.
 // Refactor the code in the provided code editor and submit your improved version.
 
-function calc(b) {
-    return Math.PI * b * b;
+function getCalculatedCircleArea(radius) {
+    // This function using the formula for calculating the area of a circle.
+    // area = PI * radius * radius
+    return Math.PI * radius * radius;
 }
 
 const a = 10;
 
-const c = calc(a);
+const c = getCalculatedCircleArea(a);
 console.log(c);

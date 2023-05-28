@@ -11,7 +11,7 @@
 
 // Utility function 1
 function isEmailValid(a) {
-    a.includes('@')
+    return a.includes('@')
 }
 
 // Utility function 2
